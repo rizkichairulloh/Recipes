@@ -41,110 +41,50 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Recipes'),
-          automaticallyImplyLeading: false,
-          elevation: 0.0,
-        ),
-        body: Responsive(
-          mobile: Obx(() => !_recipesC.isLoading.value
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: ListView.builder(
-                    itemCount: _recipesC.recipesList.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Get.rootDelegate.toNamed(RoutesApp.detailRecipes);
-                        },
-                        child: Container(
-                          width: Get.width,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: Colors.grey.withOpacity(0.2))),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: SizedBox(
-                                    width: Get.width,
-                                    height: 200,
-                                    child: Image.network(
-                                      _recipesC.recipesList[index].image!,
-                                      fit: BoxFit.cover,
-                                    )),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Text(
-                                _recipesC.recipesList[index].name!,
-                                style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Text(
-                                _recipesC.recipesList[index].name!,
-                                style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+      appBar: AppBar(
+        title: const Text('Recipes'),
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+      ),
+      body: Center(
+        child: SizedBox(
+          width: Responsive.isDesktop(context) ? Get.width / 3 : Get.width,
+          height: Get.height,
+          child: Obx(() => !_recipesC.isLoading.value
+              ? Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                )
-              : const Center(
-                  child: SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: CircularProgressIndicator(
-                      color: Colors.lightBlueAccent,
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: Responsive.isDesktop(context) ? 0 : 16),
+                    child:  const Row(
+                      children: [
+                        Text('Assigment an '),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          'Muhammad Rizki Chairulloh',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ],
                     ),
                   ),
-                )),
-          desktop: Center(
-            child: SizedBox(
-              width: Get.width / 3,
-              height: Get.height,
-              child: Obx(() => !_recipesC.isLoading.value
-                  ? Column(
-                children: [
-                  const SizedBox(height: 10,),
-                  const Row(
-                    children: [
-                      Text('Assigment an ' ),
-                      SizedBox(width: 4,),
-                      Text('Muhammad Rizki Chairulloh', style: TextStyle(
-                       fontFamily: 'Poppins',
-                       fontWeight: FontWeight.w700
-                      ), ),
-                    ],
+                  const SizedBox(
+                    height: 10,
                   ),
-                  const SizedBox(height: 10,),
-                  Expanded(child: ListView.builder(
+                  Expanded(
+                      child: ListView.builder(
                     itemCount: _recipesC.recipesList.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          var  data = {
-                            "name" : _recipesC.recipesList[index].name!,
+                          var data = {
+                            "name": _recipesC.recipesList[index].name!,
                           };
                           Get.rootDelegate.toNamed(RoutesApp.detailRecipes,
                               parameters: data);
@@ -158,7 +98,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.grey.withOpacity(0.2))),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 16),
-                          margin: const EdgeInsets.symmetric(vertical: 5.0),
+                          margin: EdgeInsets.symmetric(
+                              vertical:
+                                  Responsive.isDesktop(context) ? 5.0 : 16,
+                              horizontal:
+                                  Responsive.isDesktop(context) ? 0 : 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -173,22 +117,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       _recipesC.recipesList[index].image!,
                                       loadingBuilder: (BuildContext context,
                                           Widget child,
-                                          ImageChunkEvent? loadingProgress) {
+                                          ImageChunkEvent?
+                                              loadingProgress) {
                                         if (loadingProgress == null) {
                                           // Image finished loading successfully.
                                           return child;
                                         } else {
                                           // Image is still loading.
                                           return Center(
-                                            child: CircularProgressIndicator(
+                                            child:
+                                                CircularProgressIndicator(
                                               value: loadingProgress
-                                                  .expectedTotalBytes !=
-                                                  null
+                                                          .expectedTotalBytes !=
+                                                      null
                                                   ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                                  (loadingProgress
-                                                      .expectedTotalBytes ??
-                                                      1)
+                                                          .cumulativeBytesLoaded /
+                                                      (loadingProgress
+                                                              .expectedTotalBytes ??
+                                                          1)
                                                   : null,
                                             ),
                                           );
@@ -239,15 +185,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               _field(
                                   title: 'calories : ',
-                                  value:
-                                  _recipesC.recipesList[index].calories!),
+                                  value: _recipesC
+                                      .recipesList[index].calories!),
                               const SizedBox(
                                 height: 4,
                               ),
                               _field(
                                   title: 'proteins : ',
-                                  value:
-                                  _recipesC.recipesList[index].proteins!),
+                                  value: _recipesC
+                                      .recipesList[index].proteins!),
                             ],
                           ),
                         ),
@@ -256,17 +202,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
                 ],
               )
-                  : const Center(
-                      child: SizedBox(
-                        width: 25,
-                        height: 25,
-                        child: CircularProgressIndicator(
-                          color: Colors.lightBlueAccent,
-                        ),
-                      ),
-                    )),
-            ),
-          ),
-        ));
+              : const Center(
+                  child: SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: CircularProgressIndicator(
+                      color: Colors.lightBlueAccent,
+                    ),
+                  ),
+                )),
+        ),
+      ),
+    );
   }
 }
