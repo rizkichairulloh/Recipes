@@ -1,16 +1,17 @@
-# recipes_global_solutions
+# Recipes Apps Global Solutions
 
-A new Flutter project.
+Assigment an Muhammad Rizki Chairulloh
 
-## Getting Started
+Data recipes in google sheets
+https://docs.google.com/spreadsheets/d/1onE9hSY_lKVOvM0RtEe6WEuNV3mncAG3HREOjQwsjYc/edit?usp=sharing
 
-This project is a starting point for a Flutter application.
+Api appscript Recipes
+https://script.google.com/macros/s/AKfycbxCVzX7xh5_7w2qtSYNYl6UC3j4u35msDIiAFSNIYxwks0S0wMvk1IUMCzyKehQi8HX9A/exec
 
-A few resources to get you started if this is your first Flutter project:
+# Testing Web Apps #
+Url Testing Web
+https://recipes-alpha-murex.vercel.app/#/home
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Testing Android Apps #
+Url download apk for install to android device
+https://drive.google.com/drive/folders/1AdgyuHoZ5tUOVJg_nr_Rgj-eUze3AEOH?usp=sharing
