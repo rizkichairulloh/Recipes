@@ -14,6 +14,7 @@ class RecipesDetailScreen extends StatefulWidget {
 
 class _RecipesDetailScreenState extends State<RecipesDetailScreen> {
   final _recipesC = Get.put(RecipesController());
+  String formattedDuration = '';
 
   _field({required String title, required String value}) {
     return Row(
@@ -44,7 +45,7 @@ class _RecipesDetailScreenState extends State<RecipesDetailScreen> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _recipesC.txtSearch.value = Get.rootDelegate.parameters['name']!;
-      _recipesC.fetchDetailRecipes();
+      _recipesC.fetchDetailRecipes(context);
     });
     super.initState();
   }
@@ -114,7 +115,7 @@ class _RecipesDetailScreenState extends State<RecipesDetailScreen> {
                                   // Error occurred while loading the image.
                                   return const Center(
                                     child: Text(
-                                      'Error loading image',
+                                      'Image not found',
                                       style: TextStyle(
                                         color: Colors.red,
                                         fontFamily: 'Poppins',
@@ -188,7 +189,7 @@ class _RecipesDetailScreenState extends State<RecipesDetailScreen> {
                         ),
                         _field(
                             title: 'time',
-                            value: _recipesC.detailRecipesList[0].time!),
+                            value: _recipesC.time.value),
                       ],
                     ),
                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:recipes_global_solutions/controllers/recipes_controller.dart';
+import 'package:recipes_global_solutions/utilities/date_convert.dart';
 import 'package:recipes_global_solutions/utilities/responsive.dart';
 import 'package:recipes_global_solutions/utilities/routes.dart';
 
@@ -13,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _recipesC = Get.put(RecipesController());
+
   _field({required String title, required String value}) {
     return Row(
       children: [
@@ -36,6 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
         const Expanded(child: SizedBox()),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _recipesC.fetchRecipes(context);
+    });
+    super.initState();
   }
 
   @override
@@ -81,6 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListView.builder(
                     itemCount: _recipesC.recipesList.length,
                     itemBuilder: (context, index) {
+                      String timeString = _recipesC.recipesList[index].time!;
+                      Duration duration = DateConvert.parseTimeStringToDuration(timeString);
+                      String formattedDuration = DateConvert.formatDuration(duration);
+
                       return InkWell(
                         onTap: () {
                           var data = {
@@ -146,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         // Error occurred while loading the image.
                                         return const Center(
                                           child: Text(
-                                            'Error loading image',
+                                            'Image not found',
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontFamily: 'Poppins',
@@ -184,14 +199,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 4,
                               ),
                               _field(
-                                  title: 'calories : ',
+                                  title: 'time',
+                                  value: formattedDuration),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              _field(
+                                  title: 'calories',
                                   value: _recipesC
                                       .recipesList[index].calories!),
                               const SizedBox(
                                 height: 4,
                               ),
                               _field(
-                                  title: 'proteins : ',
+                                  title: 'proteins',
                                   value: _recipesC
                                       .recipesList[index].proteins!),
                             ],

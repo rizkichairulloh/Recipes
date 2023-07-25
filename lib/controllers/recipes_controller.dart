@@ -3,36 +3,30 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:recipes_global_solutions/utilities/responsive.dart';
 
 import '../models/recipes_model.dart';
+import '../utilities/date_convert.dart';
 
 class RecipesController extends GetxController {
   var isLoading = false.obs;
   var recipesList = <Recipes>[].obs;
   var detailRecipesList = <Recipes>[].obs;
+  var time = ''.obs;
   var txtSearch = ''.obs;
   var ctrlSearch = TextEditingController().obs;
 
-  @override
-  void onInit() {
-    ever(txtSearch, (_){
-      fetchRecipes();
-    });
+  var api = 'https://script.google.com/macros/s/AKfycbzITxbM2fiRovqzfrKGe6-XMdF0ty4X3K6FCJiZlDILgXiM3E3JpGyX2yyx8xEVV9LGqg/exec';
 
-    fetchRecipes();
-    super.onInit();
-  }
-
-  Future fetchRecipes() async {
+  Future fetchRecipes(context) async {
     isLoading.value = true;
 
     try {
-      var apiSheet =
-          'https://script.google.com/macros/s/AKfycbxCVzX7xh5_7w2qtSYNYl6UC3j4u35msDIiAFSNIYxwks0S0wMvk1IUMCzyKehQi8HX9A/exec';
-
       var url = Uri.parse(
-          apiSheet);
-      var response = await http.post(url);
+          api);
+
+      dynamic response;
+      Responsive.isDesktop(context) ?  response = await http.post(url) : response = await http.get(url);
       debugPrint("Catch : ${response.body}");
       if (response.statusCode == 200) {
         var d = jsonDecode(response.body);
@@ -55,16 +49,14 @@ class RecipesController extends GetxController {
     }
   }
 
-  Future fetchDetailRecipes() async {
+  Future fetchDetailRecipes(context) async {
     isLoading.value = true;
 
     try {
-      var apiSheet =
-          'https://script.google.com/macros/s/AKfycbxCVzX7xh5_7w2qtSYNYl6UC3j4u35msDIiAFSNIYxwks0S0wMvk1IUMCzyKehQi8HX9A/exec';
-
       var url = Uri.parse(
-          apiSheet);
-      var response = await http.post(url);
+          api);
+      dynamic response;
+      Responsive.isDesktop(context) ?  response = await http.post(url) : response = await http.get(url);
       debugPrint("Catch : ${response.body}");
       if (response.statusCode == 200) {
         var d = jsonDecode(response.body);
@@ -78,6 +70,9 @@ class RecipesController extends GetxController {
           }
         }
         detailRecipesList.value = tempList;
+        String timeString = detailRecipesList[0].time!;
+        Duration duration = DateConvert.parseTimeStringToDuration(timeString);
+        time.value = DateConvert.formatDuration(duration);
         isLoading.value = false;
       }
     } catch (e) {

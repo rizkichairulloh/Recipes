@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'utilities/colors.dart';
 import 'utilities/http_overides.dart';
 import 'utilities/routes.dart';
 
@@ -15,7 +14,6 @@ void main() {
   runApp(GetMaterialApp.router(
     title: 'Celerates',
     theme: ThemeData(
-      primaryColor: ColorApp.main,
       highlightColor: Colors.transparent,
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,
