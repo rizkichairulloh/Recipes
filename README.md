@@ -1,4 +1,4 @@
-# recipes_global_solutions
+# Recipes Apps Global Solutions
 
 Assigment an Muhammad Rizki Chairulloh
 
